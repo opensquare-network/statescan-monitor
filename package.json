@@ -1,0 +1,17 @@
+{
+  "name": "statescan-monitor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:opensquare-network/statescan-monitor.git",
+  "author": "Yongfeng LI <wliyongfeng@gmail.com>",
+  "scripts": {
+    "monitor": "pm2 start ecosystem.config.js --only statescan-memory-guard --env production"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "node-os-utils": "^1.3.5"
+  },
+  "devDependencies": {
+    "pm2": "^5.1.1"
+  }
+}
