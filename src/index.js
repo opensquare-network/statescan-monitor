@@ -10,16 +10,19 @@ async function main() {
   }
 
   console.log(`Begin to restart mongod and docker containers`);
-  exec("systemctl restart mongod", (err, stdOut) => {
-    if (err) {
-      console.error("error for ls")
-      return
-    }
+  await new Promise((resolve, reject) => {
+    exec("systemctl restart mongod", (err, stdOut) => {
+      if (err) {
+        console.error("error restart mongod")
+        reject()
+        return
+      }
 
-    exec('docker restart $(docker ps -q)', (err, stdOut) => {
-      console.log('stdOut', stdOut)
+      exec('docker restart $(docker ps -q)', (err, stdOut) => {
+        resolve()
+        console.log('stdOut', stdOut)
+      })
     })
-
   })
 }
 
