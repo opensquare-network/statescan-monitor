@@ -10,7 +10,7 @@ async function main() {
   const head = await getFinalizedNumber();
   const scanHeight = await getScanFinalizedHeight();
 
-  if (head - scanHeight < 90) {
+  if (head - scanHeight < 30) {
     console.log(`No problem, finalized height: ${ head }, scan height: ${ scanHeight }`)
     await disconnect();
     process.exit(0);
