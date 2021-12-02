@@ -1,25 +1,25 @@
-const osu = require("node-os-utils")
-const mem = osu.mem;
+const dotenv = require("dotenv")
+dotenv.config();
+
+const { getScanFinalizedHeight } = require("./scan");
+const { getFinalizedNumber } = require("./chain/height");
 const { exec } = require("child_process");
+const { disconnect } = require("./chain/api");
 
 async function main() {
-  const memInfo = await mem.info();
-  if (memInfo.freeMemMb > 1000) {
-    console.log(`Free memory: ${ memInfo.freeMemMb } Mb`)
+  const head = await getFinalizedNumber();
+  const scanHeight = await getScanFinalizedHeight();
+
+  if (head - scanHeight < 90) {
+    console.log(`No problem, finalized height: ${ head }, scan height: ${ scanHeight }`)
+    await disconnect();
+    process.exit(0);
     return
   }
 
-  console.log(`Begin to restart mongod and docker containers`);
-  exec("systemctl restart mongod", (err, stdOut) => {
-    if (err) {
-      console.error("error for ls")
-      return
-    }
-
-    exec('docker restart $(docker ps -q)', (err, stdOut) => {
-      console.log('stdOut', stdOut)
-    })
-
+  console.log(`Begin to restart all docker containers`);
+  exec('docker restart $(docker ps -q)', (err, stdOut) => {
+    console.log('stdOut', stdOut)
   })
 }
 

@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: 'statescan-memory-guard',
+    name: 'statescan-monitor',
     script: "src/index.js",
     log_date_format: "YYYY-MM-DD HH:mm Z",
     cron_restart: "*/10 * * * *",
