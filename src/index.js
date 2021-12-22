@@ -17,8 +17,9 @@ async function main() {
     return
   }
 
-  console.log(`Begin to restart all docker containers`);
-  exec('docker restart $(docker ps -q)', (err, stdOut) => {
+  const commands = process.env.COMMANDS;
+  console.log(`Begin to execute commands ${ commands }`);
+  exec(commands, (err, stdOut) => {
     console.log('stdOut', stdOut)
   })
 }

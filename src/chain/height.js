@@ -1,6 +1,5 @@
 const { getApi } = require("./api");
 
-
 async function getFinalizedNumber() {
   const api = await getApi();
   const hash = await api.rpc.chain.getFinalizedHead();
