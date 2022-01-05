@@ -23,7 +23,7 @@ async function main() {
   console.log("Begin to restart pm2");
   pm2.connect((err) => {
     if (err) {
-      console.log(err);
+      console.log("pm2 connect error", err);
       process.exit(2);
     }
 
@@ -31,11 +31,11 @@ async function main() {
       (list || []).forEach((item) => {
         if (names.includes(item.name)) {
           pm2.restart(item.name, (err, proc) => {
-            console.log(err);
-            pm2.disconnect();
+            console.log(`pm2 restart ${item.name} error`, err);
           });
         }
       });
+      pm2.disconnect();
     });
   });
 }
