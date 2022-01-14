@@ -5,6 +5,8 @@ dotenv.config();
 const { getScanFinalizedHeight } = require("./scan");
 const { getFinalizedNumber } = require("./chain/height");
 const { disconnect } = require("./chain/api");
+const { getCommands } = require("./env");
+const { exec } = require("child_process");
 
 async function main() {
   const head = await getFinalizedNumber();
@@ -17,6 +19,13 @@ async function main() {
     await disconnect();
     process.exit(0);
     return;
+  }
+
+  const commands = getCommands();
+  for (const command of commands) {
+    exec(command, (err, stdOut) => {
+      console.log('stdOut', stdOut)
+    })
   }
 
   const names = (process.env.NAMES || "").split(";");
